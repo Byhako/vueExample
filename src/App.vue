@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     h1 {{titulo}}
-    input(type='text' v-model='nuevoItem' @keyup.enter='addItem')
+    input(id='input1' type='text' v-model='nuevoItem' @keyup.enter='addItem')
     button(@click='addItem') Agregar item
     ul
       li(v-for="(item, key) in items" v-bind:key="key")
@@ -9,10 +9,23 @@
         button(@click='item.cantidad--') -
         input(type='text' v-model.number='item.cantidad')
         span {{ item.nombre }}
-        span(v-if='item.cantidad === 0') - Sin stock
+        span(v-if='item.cantidad < 1') - Sin stock
 
     h3 Total : {{sumarItems}}
-        
+
+    div(class='container mt-5')
+      p(:class="['p-3', 'text-white', fondo]")
+        |Lorem Ipsum is simply dummy text of the printing and typesetting
+        |industry. Lorem Ipsum has been the industry's standard dummy text
+        |ever since the 1500s, when an unknown printer took a galley of type
+      
+      input(class='form-control my-3' v-model='fondo')
+
+      p(class='text-white p-3' :class="{'bg-info': color, 'bg-success': !color}")
+        |Lorem Ipsum is simply dummy text of the printing and typesetting
+        |industry. Lorem Ipsum has been the industry's standard dummy text
+        |ever since the 1500s, when an unknown printer took a galley of type
+      button(class='btn btn-primary' @click='color = !color') cambiar fondo
 </template>
 
 <script>
@@ -27,7 +40,9 @@ export default {
         {cantidad: 0, nombre: 'Lulo'}
       ],
       nuevoItem: '',
-      total: 0
+      total: 0,
+      fondo: 'bg-dark',
+      color: false
     }
   },
   methods: {
@@ -49,6 +64,9 @@ export default {
 </script>
 
 <style lang="scss">
+  #input1 {
+    margin-bottom: 10px;
+  }
   li {
     margin-bottom: 5px;
   }
