@@ -26,6 +26,24 @@
         |industry. Lorem Ipsum has been the industry's standard dummy text
         |ever since the 1500s, when an unknown printer took a galley of type
       button(class='btn btn-primary' @click='color = !color') cambiar fondo
+
+    div(class='container computadas')
+      h4
+        b Mensaje:&nbsp;&nbsp;
+        span {{mensaje}}
+      h4
+        b Invertido:&nbsp;&nbsp;
+        span {{invertido}}
+      input(class='form-control' type='text' v-model='mensaje')
+      hr
+      button(class='btn btn-danger' @click='contador === 0 ? contador=0 : contador--') -
+      button(class='btn btn-primary' @click='contador === 100 ? contador=100 : contador++') +
+      h4 {{contador}} %
+
+      .progress
+        .progress-bar(role='progressbar', :style="{'width': contador+'%'}",
+        aria-valuemin='0', aria-valuemax='100', :class="colorBar") {{contador}} %
+
 </template>
 
 <script>
@@ -42,7 +60,9 @@ export default {
       nuevoItem: '',
       total: 0,
       fondo: 'bg-dark',
-      color: false
+      color: false,
+      mensaje: 'Mi primer app Vue',
+      contador: 0
     }
   },
   methods: {
@@ -58,12 +78,26 @@ export default {
         this.total = this.total + item.cantidad
       })
       return this.total
+    },
+    invertido () {
+      return this.mensaje.split('').reverse().join('')
+    },
+    colorBar () {
+      return {
+        'bg-success': this.contador < 26,
+        'bg-info': this.contador > 25  && this.contador < 51,
+        'bg-warning': this.contador > 50 && this.contador < 76,
+        'bg-danger': this.contador > 75
+      }
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  #app {
+    padding: 20px; 
+  }
   #input1 {
     margin-bottom: 10px;
   }
@@ -74,5 +108,8 @@ export default {
     width: 25px;
     text-align: center;
     margin: 0 10px;
+  }
+  .computadas {
+    margin-top: 50px;
   }
 </style>
